@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL.CoreEntities\BLL.CoreEntities.csproj" />
+    <ProjectReference Include="..\BLL.Interfaces\BLL.Interfaces.csproj" />
+    <ProjectReference Include="..\DAL.Interfaces\DAL.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

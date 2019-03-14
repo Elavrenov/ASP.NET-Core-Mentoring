@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BLL.Interfaces.Interfaces;
+using BLL.Services;
 using DAL.EF;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +32,10 @@ namespace PL.WebAppMVC
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(connection));
+
+            services.AddScoped<IRepository, EfRepository>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddMvc();
 
