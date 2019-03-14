@@ -1,4 +1,4 @@
-﻿@model DAL.EF.Models.Categories
+﻿@model BLL.CoreEntities.Entities.Category
 
 @{
     ViewData["Title"] = "Delete";
@@ -23,17 +23,19 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Picture)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Picture)
-        </dd>
+        </dd>*@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="CategoryId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        @*<input type="hidden" asp-for="CategoryId" />*@
+        <input type="submit" value="Delete" class="btn btn-default" /> 
+        <div class="btn btn-default">
+            <a asp-action="Index">Back to List</a>
+        </div>
     </form>
 </div>

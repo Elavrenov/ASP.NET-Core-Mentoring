@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
+using BLL.CoreEntities.Entities.UpdateEntities;
+using DAL.EF.Models;
 using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +29,40 @@ namespace DAL.EF
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.CategoryId == id);
 
-            return Mapper.Mapper.ToCategoryDto(category);
+            return category != null ? Mapper.Mapper.ToCategoryDto(category) : null;
+        }
+
+        public async Task CreateCategoryAsync(UpdateCategory newCategory)
+        {
+            await _context.Categories.AddAsync(Mapper.Mapper.ToCategoriesDal(newCategory));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateCateroryAsync(int id, UpdateCategory updatedCategory)
+        {
+            var existingCategory = await _context.Categories.SingleOrDefaultAsync(cat => cat.CategoryId == id);
+
+            if (existingCategory != null)
+            {
+                existingCategory.CategoryName = updatedCategory.CategoryName;
+                existingCategory.Description = updatedCategory.Description;
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteCategoryAsync(int? id)
+        {
+            if (id != null)
+            {
+                var existingCategory = await _context.Categories.SingleOrDefaultAsync(cat => cat.CategoryId == id);
+
+                if (existingCategory != null)
+                {
+                    _context.Categories.Remove(existingCategory);
+                    await _context.SaveChangesAsync();
+                }
+            }
         }
     }
 }

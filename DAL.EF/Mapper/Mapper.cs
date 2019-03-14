@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BLL.CoreEntities.Entities;
+using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 
 namespace DAL.EF.Mapper
@@ -27,12 +28,11 @@ namespace DAL.EF.Mapper
             Description =  dalCategory.Description
         };
 
-        public static Categories ToCategoriesDal(Category dtoCategory) =>new Categories()
+        public static Categories ToCategoriesDal(UpdateCategory dtoCategory) =>new Categories()
         {
             CategoryName = dtoCategory.CategoryName,
             Description = dtoCategory.Description
         };
-
         #endregion
 
 
