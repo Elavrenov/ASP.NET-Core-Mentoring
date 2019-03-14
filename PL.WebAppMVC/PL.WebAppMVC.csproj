@@ -7,6 +7,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL.CoreEntities\BLL.CoreEntities.csproj" />
+    <ProjectReference Include="..\DAL.EF\DAL.EF.csproj" />
+    <ProjectReference Include="..\DAL.Interfaces\DAL.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
