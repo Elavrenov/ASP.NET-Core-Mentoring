@@ -105,7 +105,8 @@ namespace DAL.EF.Mapper
             {
                 Category = new Categories
                 {
-                    CategoryName = dtoProduct.CategoryIdNames
+                    CategoryName = dtoProduct.CategoryIdNames,
+                    Description = "Temp value"
                 },
                 ProductName = dtoProduct.ProductName,
                 UnitsInStock = dtoProduct.UnitsInStock,

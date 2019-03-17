@@ -21,7 +21,7 @@ namespace BLL.CoreEntities.Entities.UpdateEntities
 
         public string QuantityPerUnit { get; set; }
 
-        [Required] public decimal? UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
 
         public short? UnitsInStock { get; set; }
         public short? UnitsOnOrder { get; set; }
