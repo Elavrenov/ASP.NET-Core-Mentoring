@@ -144,3 +144,17 @@
 2019-03-17 23:20:36.1500 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
 2019-03-17 23:20:36.1500 Info Closing old configuration.
 2019-03-17 23:20:36.1756 Info Found 45 configuration items
+2019-03-17 23:53:53.7726 Info Message Template Auto Format enabled
+2019-03-17 23:53:53.7726 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-17 23:53:53.8273 Info Adding target File Target[allfile]
+2019-03-17 23:53:53.8273 Info Adding target File Target[ownFile-web]
+2019-03-17 23:53:53.8384 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\bin\Debug\netcoreapp2.1\nlog.config...
+2019-03-17 23:53:53.8573 Info Found 45 configuration items
+2019-03-17 23:53:54.2808 Info Message Template Auto Format enabled
+2019-03-17 23:53:54.2808 Info Found 45 configuration items
+2019-03-17 23:53:54.2808 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-17 23:53:54.2840 Info Adding target File Target[allfile]
+2019-03-17 23:53:54.2840 Info Adding target File Target[ownFile-web]
+2019-03-17 23:53:54.2840 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
+2019-03-17 23:53:54.2840 Info Closing old configuration.
+2019-03-17 23:53:54.3068 Info Found 45 configuration items
