@@ -22,11 +22,6 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>*@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-default" />
             </div>           
@@ -35,8 +30,8 @@
 </div>
 
 
-<div class="btn btn-default" style="margin-top: 50px;">
-    <a asp-action="Index">Back to List</a>
+<div style="margin-top: 50px;">
+    <a class="btn btn-default" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

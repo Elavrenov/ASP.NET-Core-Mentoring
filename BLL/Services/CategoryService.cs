@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.Interfaces;
+using DAL.Interfaces.Interfaces;
 
 namespace BLL.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository _repository;
-        public CategoryService(IRepository repository)
+        private readonly ICategoryRepository _repository;
+        public CategoryService(ICategoryRepository repository)
         {
             _repository = repository;
         }
@@ -20,7 +22,6 @@ namespace BLL.Services
         {
             return await _repository.GetAllCategoriesAsync();
         }
-
         public async Task<Category> GetCategoryByIdAsync(int? id)
         {
             return await _repository.GetCategoryById(id);
@@ -34,11 +35,6 @@ namespace BLL.Services
         public async Task UpdateCategoryAsync(int id, UpdateCategory updatedCategory)
         {
             await _repository.UpdateCateroryAsync(id,updatedCategory);
-        }
-
-        public async Task DeleteCategoryAsync(int? id)
-        {
-            await _repository.DeleteCategoryAsync(id);
         }
     }
 }

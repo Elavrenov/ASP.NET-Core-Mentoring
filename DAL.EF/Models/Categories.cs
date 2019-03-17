@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PL.WebAppMVC.Models;
 
 namespace DAL.EF.Models
 {

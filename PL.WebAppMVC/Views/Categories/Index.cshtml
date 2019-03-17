@@ -6,8 +6,8 @@
 
 <h2>Index</h2>
 
-<div class="btn bg-info">
-    <a asp-action="Create">Create New</a>
+<div>
+    <a class="btn bg-info" asp-action="Create">Create New</a>
 </div>
 
 <table class="table">
@@ -19,9 +19,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Picture)
-                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -35,13 +32,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Picture)
-                    </td>*@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
                 </td>
             </tr>
         }

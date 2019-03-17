@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using BLL.Interfaces.Interfaces;
 using BLL.Services;
 using DAL.EF;
+using DAL.EF.Repositories;
 using DAL.Interfaces;
+using DAL.Interfaces.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,9 +35,11 @@ namespace PL.WebAppMVC
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddScoped<IRepository, EfRepository>();
 
+            services.AddScoped<ICategoryRepository, EfCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductRepository, EfProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddMvc();
 

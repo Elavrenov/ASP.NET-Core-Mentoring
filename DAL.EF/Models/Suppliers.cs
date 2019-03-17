@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace PL.WebAppMVC.Models
+namespace DAL.EF.Models
 {
     public partial class Suppliers
     {

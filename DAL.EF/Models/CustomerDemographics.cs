@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using DAL.EF.Models;
 
-namespace PL.WebAppMVC.Models
+namespace DAL.EF.Models
 {
     public class CustomerDemographics
     {

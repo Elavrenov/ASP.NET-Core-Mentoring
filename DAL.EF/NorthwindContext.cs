@@ -1,6 +1,5 @@
 ﻿using DAL.EF.Models;
 using Microsoft.EntityFrameworkCore;
-using PL.WebAppMVC.Models;
 
 namespace DAL.EF
 {

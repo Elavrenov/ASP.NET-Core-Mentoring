@@ -5,28 +5,29 @@ using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 using DAL.Interfaces;
+using DAL.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF
 {
-    public class EfRepository : IRepository
+    public class EfCategoryRepository : ICategoryRepository
     {
         private readonly NorthwindContext _context;
 
-        public EfRepository(NorthwindContext context)
+        public EfCategoryRepository(NorthwindContext context)
         {
             _context = context;
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-            var allCategories = await _context.Categories.OrderBy(cat => cat.CategoryName).ToListAsync();
+            var allCategories = await _context.Categories.Include(c=>c.Products).OrderBy(cat => cat.CategoryName).ToListAsync();
             return Mapper.Mapper.ToEnumerableCategoryDto(allCategories);
         }
 
         public async Task<Category> GetCategoryById(int? id)
         {
-            var category = await _context.Categories
+            var category = await _context.Categories.Include(c=>c.Products)
                 .FirstOrDefaultAsync(m => m.CategoryId == id);
 
             return category != null ? Mapper.Mapper.ToCategoryDto(category) : null;
@@ -48,20 +49,6 @@ namespace DAL.EF
                 existingCategory.Description = updatedCategory.Description;
 
                 await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task DeleteCategoryAsync(int? id)
-        {
-            if (id != null)
-            {
-                var existingCategory = await _context.Categories.SingleOrDefaultAsync(cat => cat.CategoryId == id);
-
-                if (existingCategory != null)
-                {
-                    _context.Categories.Remove(existingCategory);
-                    await _context.SaveChangesAsync();
-                }
             }
         }
     }

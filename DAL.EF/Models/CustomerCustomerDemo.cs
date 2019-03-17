@@ -1,6 +1,4 @@
-﻿using PL.WebAppMVC.Models;
-
-namespace DAL.EF.Models
+﻿namespace DAL.EF.Models
 {
     public partial class CustomerCustomerDemo
     {
