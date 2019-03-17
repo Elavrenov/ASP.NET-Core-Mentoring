@@ -12,7 +12,8 @@ namespace DAL.EF
         public NorthwindContext(DbContextOptions<NorthwindContext> options)
             : base(options)
         {
-            Database.EnsureCreated(); //Create Db if not exist
+            //Create Db if not exist
+            //Database.EnsureCreated(); 
         }
 
         public virtual DbSet<Categories> Categories { get; set; }
