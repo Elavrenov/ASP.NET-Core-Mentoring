@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
+using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using DAL.EF.Mapper;
 
 namespace PL.WebAppMVC.Controllers
 {
@@ -15,6 +15,7 @@ namespace PL.WebAppMVC.Controllers
         {
             _productService = productService;
         }
+
         // GET: Products
         public async Task<IActionResult> Index()
         {
@@ -35,7 +36,10 @@ namespace PL.WebAppMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductName,SupplierIdNames,CategoryIdNames,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] UpdateProduct products)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "ProductName,SupplierIdNames,CategoryIdNames,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")]
+            UpdateProduct products)
         {
             if (ModelState.IsValid)
             {
@@ -53,16 +57,10 @@ namespace PL.WebAppMVC.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var products = await _productService.GetProductByIdAsync(id);
-            if (products == null)
-            {
-                return NotFound();
-            }
+            if (products == null) return NotFound();
 
             ViewData["CategoryId"] = new SelectList(await _productService.GetSelectedCategoryNames());
             ViewData["SupplierId"] = new SelectList(await _productService.GetSelectedSupplierNames());
@@ -74,7 +72,10 @@ namespace PL.WebAppMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductName,SupplierIdNames,CategoryIdNames,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] UpdateProduct products)
+        public async Task<IActionResult> Edit(int id,
+            [Bind(
+                "ProductName,SupplierIdNames,CategoryIdNames,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")]
+            UpdateProduct products)
         {
             if (ModelState.IsValid)
             {

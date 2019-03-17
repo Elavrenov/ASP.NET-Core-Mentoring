@@ -2,7 +2,7 @@
 
 namespace DAL.EF.Models
 {
-    public partial class Region
+    public class Region
     {
         public Region()
         {

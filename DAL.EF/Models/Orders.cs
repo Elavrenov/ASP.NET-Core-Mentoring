@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DAL.EF.Models
 {
-    public partial class Orders
+    public class Orders
     {
         public Orders()
         {

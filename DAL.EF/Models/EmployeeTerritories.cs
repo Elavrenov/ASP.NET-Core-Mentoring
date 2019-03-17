@@ -1,6 +1,6 @@
 ﻿namespace DAL.EF.Models
 {
-    public partial class EmployeeTerritories
+    public class EmployeeTerritories
     {
         public int EmployeeId { get; set; }
         public string TerritoryId { get; set; }

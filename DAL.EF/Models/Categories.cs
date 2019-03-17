@@ -2,7 +2,7 @@
 
 namespace DAL.EF.Models
 {
-    public partial class Categories
+    public class Categories
     {
         public Categories()
         {

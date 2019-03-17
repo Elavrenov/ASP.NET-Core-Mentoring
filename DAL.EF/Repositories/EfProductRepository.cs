@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 using DAL.Interfaces.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF.Repositories
@@ -22,14 +20,14 @@ namespace DAL.EF.Repositories
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            var products = await _context.Products.Include(p=>p.Category).Include(p=>p.Supplier).ToListAsync();
+            var products = await _context.Products.Include(p => p.Category).Include(p => p.Supplier).ToListAsync();
             return Mapper.Mapper.ToEnumerableProductDto(products);
-
         }
 
         public async Task<Product> GetProductByIdAsync(int? id)
         {
-            var product = await _context.Products.Include(p => p.Category).Include(p => p.Supplier).FirstOrDefaultAsync(x => x.ProductId == id);
+            var product = await _context.Products.Include(p => p.Category).Include(p => p.Supplier)
+                .FirstOrDefaultAsync(x => x.ProductId == id);
             return product != null ? Mapper.Mapper.ToProductDto(product) : null;
         }
 
@@ -55,11 +53,11 @@ namespace DAL.EF.Repositories
 
             if (existingProduct != null)
             {
-                existingProduct.Category = new Categories() { CategoryName = updatedProduct.CategoryIdNames };
+                existingProduct.Category = new Categories {CategoryName = updatedProduct.CategoryIdNames};
                 existingProduct.Discontinued = updatedProduct.Discontinued;
                 existingProduct.QuantityPerUnit = updatedProduct.QuantityPerUnit;
                 existingProduct.ReorderLevel = updatedProduct.ReorderLevel;
-                existingProduct.Supplier = new Suppliers() { CompanyName = updatedProduct.SupplierIdNames };
+                existingProduct.Supplier = new Suppliers {CompanyName = updatedProduct.SupplierIdNames};
                 existingProduct.UnitPrice = updatedProduct.UnitPrice;
                 existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
                 existingProduct.UnitsOnOrder = updatedProduct.UnitsOnOrder;
@@ -68,6 +66,5 @@ namespace DAL.EF.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
     }
 }

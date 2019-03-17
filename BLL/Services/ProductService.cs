@@ -15,6 +15,7 @@ namespace BLL.Services
         {
             _repository = repository;
         }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await _repository.GetAllProductsAsync();

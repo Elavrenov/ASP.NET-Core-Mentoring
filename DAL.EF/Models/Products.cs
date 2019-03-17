@@ -2,7 +2,7 @@
 
 namespace DAL.EF.Models
 {
-    public partial class Products
+    public class Products
     {
         public Products()
         {

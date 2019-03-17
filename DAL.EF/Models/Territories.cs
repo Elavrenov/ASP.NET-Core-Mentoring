@@ -2,7 +2,7 @@
 
 namespace DAL.EF.Models
 {
-    public partial class Territories
+    public class Territories
     {
         public Territories()
         {

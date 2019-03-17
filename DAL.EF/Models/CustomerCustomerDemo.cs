@@ -1,6 +1,6 @@
 ﻿namespace DAL.EF.Models
 {
-    public partial class CustomerCustomerDemo
+    public class CustomerCustomerDemo
     {
         public string CustomerId { get; set; }
         public string CustomerTypeId { get; set; }

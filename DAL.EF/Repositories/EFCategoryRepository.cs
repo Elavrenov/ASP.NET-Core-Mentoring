@@ -3,8 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
-using DAL.EF.Models;
-using DAL.Interfaces;
 using DAL.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,13 +19,14 @@ namespace DAL.EF
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-            var allCategories = await _context.Categories.Include(c=>c.Products).OrderBy(cat => cat.CategoryName).ToListAsync();
+            var allCategories = await _context.Categories.Include(c => c.Products).OrderBy(cat => cat.CategoryName)
+                .ToListAsync();
             return Mapper.Mapper.ToEnumerableCategoryDto(allCategories);
         }
 
         public async Task<Category> GetCategoryById(int? id)
         {
-            var category = await _context.Categories.Include(c=>c.Products)
+            var category = await _context.Categories.Include(c => c.Products)
                 .FirstOrDefaultAsync(m => m.CategoryId == id);
 
             return category != null ? Mapper.Mapper.ToCategoryDto(category) : null;

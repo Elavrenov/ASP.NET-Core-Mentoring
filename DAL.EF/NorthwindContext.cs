@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF
 {
-    public partial class NorthwindContext : DbContext
+    public class NorthwindContext : DbContext
     {
         public NorthwindContext()
         {
@@ -51,7 +51,7 @@ namespace DAL.EF
 
             modelBuilder.Entity<CustomerCustomerDemo>(entity =>
             {
-                entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
+                entity.HasKey(e => new {e.CustomerId, e.CustomerTypeId})
                     .ForSqlServerIsClustered(false);
 
                 entity.Property(e => e.CustomerId)
@@ -188,7 +188,7 @@ namespace DAL.EF
 
             modelBuilder.Entity<EmployeeTerritories>(entity =>
             {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
+                entity.HasKey(e => new {e.EmployeeId, e.TerritoryId})
                     .ForSqlServerIsClustered(false);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
@@ -212,7 +212,7 @@ namespace DAL.EF
 
             modelBuilder.Entity<OrderDetails>(entity =>
             {
-                entity.HasKey(e => new { e.OrderId, e.ProductId });
+                entity.HasKey(e => new {e.OrderId, e.ProductId});
 
                 entity.ToTable("Order Details");
 

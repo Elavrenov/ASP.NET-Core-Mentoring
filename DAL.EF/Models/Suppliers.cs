@@ -2,7 +2,7 @@
 
 namespace DAL.EF.Models
 {
-    public partial class Suppliers
+    public class Suppliers
     {
         public Suppliers()
         {
