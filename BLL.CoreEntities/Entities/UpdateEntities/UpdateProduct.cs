@@ -19,6 +19,8 @@ namespace BLL.CoreEntities.Entities.UpdateEntities
         [MaxLength(255)]
         public string CategoryIdNames { get; set; }
 
+        [MaxLength(20)]
+        [Range(0, int.MaxValue)]
         public string QuantityPerUnit { get; set; }
 
         public decimal? UnitPrice { get; set; }

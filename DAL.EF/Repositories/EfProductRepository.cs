@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
@@ -43,7 +44,7 @@ namespace DAL.EF.Repositories
 
         public async Task CreateProductAsync(UpdateProduct newProduct)
         {
-            await _context.Products.AddAsync(Mapper.Mapper.ToProductsDal(newProduct));
+            await _context.Products.AddAsync(Mapper.Mapper.ToProductsDal(newProduct, _context));
             await _context.SaveChangesAsync();
         }
 
@@ -53,11 +54,14 @@ namespace DAL.EF.Repositories
 
             if (existingProduct != null)
             {
-                existingProduct.Category = new Categories {CategoryName = updatedProduct.CategoryIdNames};
+                existingProduct.Category =
+                    await _context.Categories.FirstAsync(x =>
+                        String.Equals($"{x.CategoryName}", $"{updatedProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.Discontinued = updatedProduct.Discontinued;
                 existingProduct.QuantityPerUnit = updatedProduct.QuantityPerUnit;
                 existingProduct.ReorderLevel = updatedProduct.ReorderLevel;
-                existingProduct.Supplier = new Suppliers {CompanyName = updatedProduct.SupplierIdNames};
+                existingProduct.Supplier = await _context.Suppliers.FirstAsync(x =>
+                    String.Equals($"{x.CompanyName}", $"{updatedProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.UnitPrice = updatedProduct.UnitPrice;
                 existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
                 existingProduct.UnitsOnOrder = updatedProduct.UnitsOnOrder;

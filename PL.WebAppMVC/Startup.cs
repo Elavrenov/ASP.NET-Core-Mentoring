@@ -83,10 +83,6 @@ namespace PL.WebAppMVC
                     var exceptionHandlerPathFeature =
                         context.Features.Get<IExceptionHandlerPathFeature>();
 
-                    // Use exceptionHandlerPathFeature to process the exception (for example, 
-                    // logging), but do NOT expose sensitive error information directly to 
-                    // the client.
-
                     if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
                     {
                         await context.Response.WriteAsync("File error thrown!<br><br>\r\n");

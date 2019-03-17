@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
+using DAL.Interfaces.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF.Mapper
 {
@@ -99,21 +103,16 @@ namespace DAL.EF.Mapper
             };
         }
 
-        public static Products ToProductsDal(UpdateProduct dtoProduct)
+        public static Products ToProductsDal(UpdateProduct dtoProduct, NorthwindContext context)
         {
             return new Products
             {
-                Category = new Categories
-                {
-                    CategoryName = dtoProduct.CategoryIdNames,
-                    Description = "Temp value"
-                },
+                Category = context.Categories.First(x =>
+                    String.Equals($"{x.CategoryName}", $"{dtoProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase)),
                 ProductName = dtoProduct.ProductName,
                 UnitsInStock = dtoProduct.UnitsInStock,
-                Supplier = new Suppliers
-                {
-                    CompanyName = dtoProduct.SupplierIdNames
-                },
+                Supplier = context.Suppliers.First(x =>
+                    String.Equals($"{x.CompanyName}", $"{dtoProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase)),
                 QuantityPerUnit = dtoProduct.QuantityPerUnit,
                 UnitsOnOrder = dtoProduct.UnitsOnOrder,
                 Discontinued = dtoProduct.Discontinued,
