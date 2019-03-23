@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Northwind Categories</h2>
 
 <div>
     <a class="btn bg-info" asp-action="Create">Create New</a>
@@ -19,24 +19,41 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayName("Functionality")
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
-                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @{
+                    if (item.Picture != null)
+                    {
+                        <img style='width: 120px; height: 80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Picture))" />
+                    }
+                    else
+                    {
+                        <img style='width: 120px; height: 80px;' src="/Pictures/noData.jpeg" />
+                    }
+                }
+            </td>
+            <td>
+                <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

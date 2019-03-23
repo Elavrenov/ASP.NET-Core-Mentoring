@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 using DAL.Interfaces.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF.Mapper
@@ -24,23 +28,54 @@ namespace DAL.EF.Mapper
 
         public static Category ToCategoryDto(Categories dalCategory)
         {
+            byte[] picture = null;
+            if (dalCategory.Picture != null)
+            {
+                picture = dalCategory.Picture.Skip(78).ToArray();
+            }
             return new Category
             {
                 CategoryId = dalCategory.CategoryId,
                 CategoryName = dalCategory.CategoryName,
-                Description = dalCategory.Description
+                Description = dalCategory.Description,
+                Picture = picture
             };
         }
 
-        public static Categories ToCategoriesDal(UpdateCategory dtoCategory)
+        public static Categories ToCategoriesDal(UpdateCategory dtoCategory, byte[] pictureBytes)
         {
             return new Categories
             {
                 CategoryName = dtoCategory.CategoryName,
-                Description = dtoCategory.Description
+                Description = dtoCategory.Description,
+                Picture = pictureBytes
             };
         }
 
+        public static UpdateCategory ToUpdateCategoryModel(Category category)
+        {
+            FormFile pictureFile = null;
+
+            if (category.Picture != null)
+            {
+                var stream = new MemoryStream(category.Picture);
+
+                var pictureFormFile = new FormFile(stream, 0, stream.Length, null, category.CategoryName)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpeg"
+                };
+
+                pictureFile = pictureFormFile;
+            }
+
+            return new UpdateCategory()
+            {
+                CategoryName = category.CategoryName,
+                Description = category.Description,
+                Picture = pictureFile
+            };
+        }
         #endregion
 
         #region Products

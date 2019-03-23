@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
+using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL.WebAppMVC.Controllers
@@ -43,7 +45,7 @@ namespace PL.WebAppMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryName,Description")] UpdateCategory categories)
+        public async Task<IActionResult> Create([Bind("CategoryName,Description,Picture")] UpdateCategory categories)
         {
             if (!ModelState.IsValid) return View(categories);
 
@@ -57,11 +59,13 @@ namespace PL.WebAppMVC.Controllers
         {
             if (id == null) return NotFound();
 
-            var categories = await _categoryService.GetCategoryByIdAsync(id);
+            var category = await _categoryService.GetCategoryByIdAsync(id);
 
-            if (categories == null) return NotFound();
+            if (category == null) return NotFound();
 
-            return View(categories);
+            var mapCategory = Mapper.ToUpdateCategoryModel(category);
+
+            return View(Mapper.ToUpdateCategoryModel(category));
         }
 
         //// POST: Categories/Edit/5
@@ -69,7 +73,7 @@ namespace PL.WebAppMVC.Controllers
         //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description")]
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryName,Description,Picture")]
             UpdateCategory category)
         {
             if (ModelState.IsValid)

@@ -44,8 +44,13 @@ namespace DAL.EF.Repositories
 
         public async Task CreateProductAsync(UpdateProduct newProduct)
         {
-            await _context.Products.AddAsync(Mapper.Mapper.ToProductsDal(newProduct, _context));
-            await _context.SaveChangesAsync();
+            var product = Mapper.Mapper.ToProductsDal(newProduct, _context);
+
+            if (!IsExistedProduct(product).Result)
+            {
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task UpdateProductAsync(int id, UpdateProduct updatedProduct)
@@ -56,12 +61,12 @@ namespace DAL.EF.Repositories
             {
                 existingProduct.Category =
                     await _context.Categories.FirstAsync(x =>
-                        String.Equals($"{x.CategoryName}", $"{updatedProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase));
+                        string.Equals($"{x.CategoryName}", $"{updatedProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.Discontinued = updatedProduct.Discontinued;
                 existingProduct.QuantityPerUnit = updatedProduct.QuantityPerUnit;
                 existingProduct.ReorderLevel = updatedProduct.ReorderLevel;
                 existingProduct.Supplier = await _context.Suppliers.FirstAsync(x =>
-                    String.Equals($"{x.CompanyName}", $"{updatedProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase));
+                    string.Equals($"{x.CompanyName}", $"{updatedProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.UnitPrice = updatedProduct.UnitPrice;
                 existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
                 existingProduct.UnitsOnOrder = updatedProduct.UnitsOnOrder;
@@ -69,6 +74,19 @@ namespace DAL.EF.Repositories
 
                 await _context.SaveChangesAsync();
             }
+        }
+
+        private async Task<bool> IsExistedProduct(Products product)
+        {
+            var productChecker = await _context.Products.FirstOrDefaultAsync(x =>
+                string.Equals(x.ProductName, product.ProductName, StringComparison.OrdinalIgnoreCase));
+
+            if (productChecker == null)
+            {
+                return false;
+            }
+
+            throw new ArgumentException($"This item is already exist");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model BLL.CoreEntities.Entities.Category
+﻿@using System.IO
+@model BLL.CoreEntities.Entities.UpdateEntities.UpdateCategory
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,9 +11,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CategoryId" />
+            @*<input type="hidden" asp-for="CategoryId" />*@
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label>
                 <input asp-for="CategoryName" class="form-control" />
@@ -23,9 +24,33 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+            @{
+                if (Model.Picture != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await Model.Picture.CopyToAsync(ms);
+
+                        <img style='width:120px; height:80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(ms.ToArray()))" />
+                    }
+                }
+                else
+                {
+                    <img style='width: 120px; height: 80px;' src="/Pictures/noData.jpeg" />
+                }
+            }
+
+            <div class="form-group">
+                <label asp-for="Picture" class="control-label"></label>
+                <input asp-for="Picture" type="file" />
+                <span asp-validation-for="Picture" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
+
         </form>
     </div>
 </div>

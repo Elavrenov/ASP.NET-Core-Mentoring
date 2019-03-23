@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace BLL.CoreEntities.Entities
 {
@@ -13,5 +14,7 @@ namespace BLL.CoreEntities.Entities
         [MinLength(3)]
         [StringLength(100)]
         public string Description { get; set; }
+
+        public byte[] Picture { get; set; }
     }
 }
