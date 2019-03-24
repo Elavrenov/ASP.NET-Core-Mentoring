@@ -14,8 +14,6 @@ namespace BLL.CoreEntities.Entities.UpdateEntities
         [MinLength(3)]
         [StringLength(255)]
         public string Description { get; set; }
-
-        [Required]
         public IFormFile Picture { get; set; }
     }
 }

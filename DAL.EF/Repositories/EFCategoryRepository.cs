@@ -13,6 +13,7 @@ namespace DAL.EF.Repositories
 {
     public class EfCategoryRepository : ICategoryRepository
     {
+        private const int DefaultByteMaskNumber = 78;
         private readonly NorthwindContext _context;
 
         public EfCategoryRepository(NorthwindContext context)
@@ -84,7 +85,7 @@ namespace DAL.EF.Repositories
                     if (!IsEqualsPictures(existingCategory.Picture, plArray))
                     {
                         var byteMaskPicture = GetDbValidPictureBytes(plArray);
-          
+
                         existingCategory.Picture = byteMaskPicture;
                     }
                 }
@@ -95,9 +96,9 @@ namespace DAL.EF.Repositories
 
         private byte[] GetDbValidPictureBytes(byte[] plByteArray)
         {
-            byte[] byteMaskPicture = new byte[78];
-            Array.Resize(ref byteMaskPicture, 78 + plByteArray.Length);
-            for (int i = 78, j = 0; i < plByteArray.Length; i++, j++)
+            byte[] byteMaskPicture = new byte[DefaultByteMaskNumber];
+            Array.Resize(ref byteMaskPicture, DefaultByteMaskNumber + plByteArray.Length);
+            for (int i = DefaultByteMaskNumber, j = 0; i < plByteArray.Length; i++, j++)
             {
                 byteMaskPicture[i] = plByteArray[j];
             }
@@ -106,12 +107,12 @@ namespace DAL.EF.Repositories
         }
         private bool IsEqualsPictures(byte[] dBytes, byte[] plBytes)
         {
-            if (dBytes.Skip(78).Count() != plBytes.Length)
+            if (dBytes == null || plBytes == null)
             {
                 return false;
             }
 
-            return true;
+            return dBytes.Skip(DefaultByteMaskNumber).Count() == plBytes.Length;
         }
         private async Task<bool> IsExistedCategory(Categories category)
         {

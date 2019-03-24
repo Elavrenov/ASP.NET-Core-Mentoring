@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -41,7 +42,8 @@ namespace PL.WebAppMVC
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                 })
-                .UseNLog();
+                .UseNLog()
+                .UseContentRoot(Directory.GetCurrentDirectory());
         }
     }
 }
