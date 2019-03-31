@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
@@ -23,6 +24,11 @@ namespace BLL.Services
 
         public async Task<Category> GetCategoryByIdAsync(int? id)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"id cant equals or less  zero");
+            }
+
             return await _repository.GetCategoryById(id);
         }
 
@@ -33,7 +39,22 @@ namespace BLL.Services
 
         public async Task UpdateCategoryAsync(int id, UpdateCategory updatedCategory)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"id cant equals or less zero");
+            }
+
             await _repository.UpdateCateroryAsync(id, updatedCategory);
+        }
+
+        public async Task<byte[]> GetPictureByCategoryId(int? id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentException($"wrong id");
+            }
+
+            return await _repository.GetCategoryById(id).ContinueWith(x => x.Result.Picture);
         }
     }
 }

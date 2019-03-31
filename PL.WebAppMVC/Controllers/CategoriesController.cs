@@ -1,44 +1,60 @@
-﻿using System.Collections.Immutable;
-using System.IO;
-using System.Net.Mime;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using PL.WebAppMVC.Filters;
 
 namespace PL.WebAppMVC.Controllers
 {
     public class CategoriesController : Controller
     {
+        private readonly IConfiguration _configuration;
+        private readonly IMemoryCache _cache;
         private readonly ICategoryService _categoryService;
+        private const int DefaultCachingTimeInMins = 1;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, IMemoryCache cache, IConfiguration configuration)
         {
             _categoryService = categoryService;
+            _cache = cache;
+            _configuration = configuration;
         }
 
         // GET: Categories
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Index' controller 'Categories'" })]
         public async Task<IActionResult> Index()
         {
             return View(await _categoryService.GetAllCategoriesAsync());
         }
 
         // GET: Categories/Details/5
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Details' controller 'Categories'" })]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var categories = await _categoryService.GetCategoryByIdAsync(id);
 
-            if (categories == null) return NotFound();
+            if (categories == null)
+            {
+                return NotFound();
+            }
 
             return View(categories);
         }
 
         // GET: Categories/Create
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Create' controller 'Categories'" })]
         public IActionResult Create()
         {
             return View();
@@ -51,7 +67,10 @@ namespace PL.WebAppMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryName,Description,Picture")] UpdateCategory categories)
         {
-            if (!ModelState.IsValid) return View(categories);
+            if (!ModelState.IsValid)
+            {
+                return View(categories);
+            }
 
             await _categoryService.CreateCategoryAsync(categories);
 
@@ -59,15 +78,21 @@ namespace PL.WebAppMVC.Controllers
         }
 
         //// GET: Categories/Edit/5
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Edit' controller 'Categories'" })]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var category = await _categoryService.GetCategoryByIdAsync(id);
 
-            if (category == null) return NotFound();
-
-            var mapCategory = Mapper.ToUpdateCategoryModel(category);
+            if (category == null)
+            {
+                return NotFound();
+            }
 
             return View(Mapper.ToUpdateCategoryModel(category));
         }
@@ -87,6 +112,38 @@ namespace PL.WebAppMVC.Controllers
             }
 
             return NotFound();
+        }
+
+        [Route("[controller]/[action]/{id}")]
+        [Route("/[action]/{id}")]
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Image' controller 'Categories'" })]
+        public async Task<IActionResult> Image(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (_cache.TryGetValue(id, out var cacheImageChecker))
+            {
+                return View(cacheImageChecker);
+            }
+
+            var dbImage = await _categoryService.GetPictureByCategoryId(id);
+            var cachingTime = DefaultCachingTimeInMins;
+
+            if (int.TryParse(_configuration.GetSection("CachingTime").Value, out var cachingTimeInMin))
+            {
+                cachingTime = cachingTimeInMin;
+            }
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(cachingTime));
+
+            _cache.Set(id, dbImage, cacheEntryOptions);
+
+            return View(dbImage);
         }
     }
 }

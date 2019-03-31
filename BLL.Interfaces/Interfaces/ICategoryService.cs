@@ -11,5 +11,6 @@ namespace BLL.Interfaces.Interfaces
         Task<Category> GetCategoryByIdAsync(int? id);
         Task CreateCategoryAsync(UpdateCategory newCategory);
         Task UpdateCategoryAsync(int id, UpdateCategory updatedCategory);
+        Task<byte[]> GetPictureByCategoryId(int? id);
     }
 }

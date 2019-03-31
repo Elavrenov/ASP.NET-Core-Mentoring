@@ -30,30 +30,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @{
-                    if (item.Picture != null)
-                    {
-                        <img style='width: 120px; height: 80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Picture))" />
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @{
+                        if (item.Picture != null)
+                        {
+                            <a asp-action="Image" asp-route-id="@item.CategoryId">
+                                <img style='width: 110px; height: 80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Picture))" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img style='width: 110px; height: 80px;' src="/Pictures/noData.jpeg" />
+                        }
                     }
-                    else
-                    {
-                        <img style='width: 120px; height: 80px;' src="/Pictures/noData.jpeg" />
-                    }
-                }
-            </td>
-            <td>
-                <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
-                <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
-            </td>
-        </tr>
+
+                </td>
+                <td>
+                    <a class="btn btn-default" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+                    <a class="btn btn-default" asp-action="Details" asp-route-id="@item.CategoryId">Details</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

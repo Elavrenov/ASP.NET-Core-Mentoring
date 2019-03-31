@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PL.WebAppMVC.Filters;
 using PL.WebAppMVC.Models;
 
 namespace PL.WebAppMVC.Controllers
@@ -17,6 +18,8 @@ namespace PL.WebAppMVC.Controllers
 
         protected ILogger Logger { get; }
 
+        [TypeFilter(typeof(ActionFilter),
+            Arguments = new object[] { "Method 'Index' controller 'Home'" })]
         public IActionResult Index()
         {
             return View();

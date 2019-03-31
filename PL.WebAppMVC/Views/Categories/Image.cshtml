@@ -1,0 +1,12 @@
+﻿@model byte[]
+@{
+    ViewData["Title"] = "Image";
+}
+
+<h2>Image</h2>
+
+<img class="center-block" style='width: 500px; height: 500px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model))"/>
+
+<div style="margin-top: 10px; text-decoration:none">
+    <a class="btn btn-default" asp-action="Index">Back to List</a>
+</div>

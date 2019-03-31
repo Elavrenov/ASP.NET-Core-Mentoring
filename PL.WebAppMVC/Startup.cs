@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using PL.WebAppMVC.Filters;
 
 namespace PL.WebAppMVC
 {
@@ -41,6 +43,7 @@ namespace PL.WebAppMVC
             services.AddScoped<IProductService, ProductService>();
 
             services.AddMvc();
+            services.AddRouting();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -49,6 +52,7 @@ namespace PL.WebAppMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddMemoryCache();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

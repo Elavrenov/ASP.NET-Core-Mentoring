@@ -33,12 +33,12 @@
                             {
                                 await Model.Picture.CopyToAsync(ms);
 
-                                <img style='width: 120px; height: 80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(ms.ToArray()))" />
+                                <img style='width: 110px; height: 80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(ms.ToArray()))" />
                             }
                         }
                         else
                         {
-                            <img style='width: 120px; height: 80px;' src="/Pictures/noData.jpeg" />
+                            <img style='width: 110px; height: 80px;' src="/Pictures/noData.jpeg" />
                         }
                     }
                 </div>
