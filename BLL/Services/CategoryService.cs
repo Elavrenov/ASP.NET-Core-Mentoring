@@ -5,16 +5,24 @@ using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.Interfaces.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 
 namespace BLL.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
+        private readonly IConfiguration _configuration;
+        private readonly IMemoryCache _cache;
+        private const int DefaultCachingTimeInMins = 1;
 
-        public CategoryService(ICategoryRepository repository)
+
+        public CategoryService(ICategoryRepository repository, IConfiguration configuration, IMemoryCache cache)
         {
             _repository = repository;
+            _configuration = configuration;
+            _cache = cache;
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
@@ -54,7 +62,26 @@ namespace BLL.Services
                 throw new ArgumentException($"wrong id");
             }
 
-            return await _repository.GetCategoryById(id).ContinueWith(x => x.Result.Picture);
+            if (_cache.TryGetValue(id, out var cacheImageChecker))
+            {
+                return ((byte[])cacheImageChecker);
+            }
+
+            var dbImage = await _repository.GetCategoryById(id).ContinueWith(x => x.Result.Picture);
+
+            var cachingTime = DefaultCachingTimeInMins;
+
+            if (int.TryParse(_configuration.GetSection("CachingTime").Value, out var cachingTimeInMin))
+            {
+                cachingTime = cachingTimeInMin;
+            }
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(cachingTime));
+
+            _cache.Set(id, dbImage, cacheEntryOptions);
+
+            return dbImage;
         }
     }
 }

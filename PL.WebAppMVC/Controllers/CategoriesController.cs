@@ -1,27 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using PL.WebAppMVC.Filters;
 
 namespace PL.WebAppMVC.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly IConfiguration _configuration;
-        private readonly IMemoryCache _cache;
         private readonly ICategoryService _categoryService;
-        private const int DefaultCachingTimeInMins = 1;
-
-        public CategoriesController(ICategoryService categoryService, IMemoryCache cache, IConfiguration configuration)
+        public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
-            _cache = cache;
-            _configuration = configuration;
         }
 
         // GET: Categories
@@ -125,23 +116,7 @@ namespace PL.WebAppMVC.Controllers
                 return NotFound();
             }
 
-            if (_cache.TryGetValue(id, out var cacheImageChecker))
-            {
-                return View(cacheImageChecker);
-            }
-
             var dbImage = await _categoryService.GetPictureByCategoryId(id);
-            var cachingTime = DefaultCachingTimeInMins;
-
-            if (int.TryParse(_configuration.GetSection("CachingTime").Value, out var cachingTimeInMin))
-            {
-                cachingTime = cachingTimeInMin;
-            }
-
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(cachingTime));
-
-            _cache.Set(id, dbImage, cacheEntryOptions);
 
             return View(dbImage);
         }
