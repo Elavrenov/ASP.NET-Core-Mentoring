@@ -15,45 +15,42 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <style>
+        body {
+            height: 100%;
+            background: url(Pictures/NorthwindHome.jpg) no-repeat 50% -100px;
+        }
+    </style>
 </head>
 <body>
-    @RenderSection("Headers", false)
-    @if (!IsSectionDefined("Headers"))
-    {
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Northwind</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
-                        <li><a asp-area="" asp-controller="Products" asp-action="Index">Products List</a></li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Northwind</a>
             </div>
-        </nav>
-    }
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
+                    <li><a asp-area="" asp-controller="Products" asp-action="Index">Products List</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()
         <hr />
-        @RenderSection("Footers", false)
-        @if (!IsSectionDefined("Footers"))
-        {
-            <footer>
-                <p>&copy; 2019 - Epam.by</p>
-            </footer>
-        }
-
+        <footer>
+            <p>&copy; 2019 - Epam.by</p>
+        </footer>
     </div>
 
     <environment include="Development">
