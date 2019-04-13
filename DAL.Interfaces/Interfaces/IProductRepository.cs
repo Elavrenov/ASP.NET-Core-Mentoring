@@ -9,7 +9,6 @@ namespace DAL.Interfaces.Interfaces
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<Product> GetProductByIdAsync(int? id);
-
         Task<IEnumerable<string>> GetSelectedCategoryNames();
         Task<IEnumerable<string>> GetSelectedSupplierNames();
         Task CreateProductAsync(UpdateProduct newProduct);

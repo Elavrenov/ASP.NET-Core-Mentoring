@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PL.WebAppMVC.Filters;
 using PL.WebAppMVC.Models;
+using SmartBreadcrumbs.Attributes;
 
 namespace PL.WebAppMVC.Controllers
 {
@@ -18,6 +19,7 @@ namespace PL.WebAppMVC.Controllers
 
         protected ILogger Logger { get; }
 
+        [DefaultBreadcrumb("Home")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Index' controller 'Home'" })]
         public IActionResult Index()

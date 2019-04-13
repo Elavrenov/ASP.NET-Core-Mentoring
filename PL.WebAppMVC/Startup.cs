@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using SmartBreadcrumbs.Extensions;
 
 namespace PL.WebAppMVC
 {
@@ -34,7 +35,7 @@ namespace PL.WebAppMVC
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(connection));
-
+            
             services.AddScoped<ICategoryRepository, EfCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductRepository, EfProductRepository>();
@@ -42,6 +43,14 @@ namespace PL.WebAppMVC
 
             services.AddMvc();
             services.AddRouting();
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                options.TagName = "nav";
+                options.TagClasses = "bg-info";
+                options.OlClasses = "breadcrumb";
+                options.LiClasses = "breadcrumb-item";
+                options.ActiveLiClasses = "breadcrumb-item active";
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {

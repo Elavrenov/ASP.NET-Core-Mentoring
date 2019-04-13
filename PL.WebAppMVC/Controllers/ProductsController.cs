@@ -5,6 +5,7 @@ using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PL.WebAppMVC.Filters;
+using SmartBreadcrumbs.Attributes;
 
 namespace PL.WebAppMVC.Controllers
 {
@@ -18,7 +19,7 @@ namespace PL.WebAppMVC.Controllers
         }
 
         // GET: Products
-
+        [Breadcrumb("ViewData.Title")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Index' controller 'Products'" })]
         public async Task<IActionResult> Index()
@@ -30,10 +31,13 @@ namespace PL.WebAppMVC.Controllers
         // GET: Products/Create
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Create' controller 'Products'" })]
+        [Breadcrumb("ViewData.BreadcrumbOptions", FromAction = "Index")]
         public async Task<IActionResult> Create()
         {
             ViewData["CategoryId"] = new SelectList(await _productService.GetSelectedCategoryNames());
             ViewData["SupplierId"] = new SelectList(await _productService.GetSelectedSupplierNames());
+            ViewData["BreadcrumbOptions"] = $"Create";
+
             return View();
         }
 
@@ -63,6 +67,7 @@ namespace PL.WebAppMVC.Controllers
         // GET: Products/Edit/5
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Edit' controller 'Products'" })]
+        [Breadcrumb("ViewData.BreadcrumbOptions", FromAction = "Index")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -72,6 +77,8 @@ namespace PL.WebAppMVC.Controllers
 
             ViewData["CategoryId"] = new SelectList(await _productService.GetSelectedCategoryNames());
             ViewData["SupplierId"] = new SelectList(await _productService.GetSelectedSupplierNames());
+            ViewData["BreadcrumbOptions"] = $"Edit: {products.ProductName}";
+
             return View(Mapper.ToUpdateProductModel(products));
         }
 

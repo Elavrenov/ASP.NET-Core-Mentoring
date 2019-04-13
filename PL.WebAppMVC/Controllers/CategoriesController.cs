@@ -4,6 +4,7 @@ using BLL.Interfaces.Interfaces;
 using DAL.EF.Mapper;
 using Microsoft.AspNetCore.Mvc;
 using PL.WebAppMVC.Filters;
+using SmartBreadcrumbs.Attributes;
 
 namespace PL.WebAppMVC.Controllers
 {
@@ -16,6 +17,7 @@ namespace PL.WebAppMVC.Controllers
         }
 
         // GET: Categories
+        [Breadcrumb("ViewData.Title")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Index' controller 'Categories'" })]
         public async Task<IActionResult> Index()
@@ -24,6 +26,7 @@ namespace PL.WebAppMVC.Controllers
         }
 
         // GET: Categories/Details/5
+        [Breadcrumb("ViewData.BreadcrumbOptions", FromAction = "Index")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Details' controller 'Categories'" })]
         public async Task<IActionResult> Details(int? id)
@@ -40,10 +43,13 @@ namespace PL.WebAppMVC.Controllers
                 return NotFound();
             }
 
+            ViewData["BreadcrumbOptions"] = categories.CategoryName;
+
             return View(categories);
         }
 
         // GET: Categories/Create
+        [Breadcrumb("Create", FromAction = "Index")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Create' controller 'Categories'" })]
         public IActionResult Create()
@@ -69,6 +75,7 @@ namespace PL.WebAppMVC.Controllers
         }
 
         //// GET: Categories/Edit/5
+        [Breadcrumb("ViewData.BreadcrumbOptions", FromAction = "Index")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Edit' controller 'Categories'" })]
         public async Task<IActionResult> Edit(int? id)
@@ -84,6 +91,8 @@ namespace PL.WebAppMVC.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["BreadcrumbOptions"] = $"Edit: {category.CategoryName}";
 
             return View(Mapper.ToUpdateCategoryModel(category));
         }
@@ -109,6 +118,7 @@ namespace PL.WebAppMVC.Controllers
         [Route("/[action]/{id}")]
         [TypeFilter(typeof(ActionFilter),
             Arguments = new object[] { "Method 'Image' controller 'Categories'" })]
+        [Breadcrumb("ViewData.BreadcrumbOptions", FromAction = "Index")]
         public async Task<IActionResult> Image(int? id)
         {
             if (id == null)
@@ -117,6 +127,8 @@ namespace PL.WebAppMVC.Controllers
             }
 
             var dbImage = await _categoryService.GetPictureByCategoryId(id);
+
+            ViewData["BreadcrumbOptions"] = $"Image";
 
             return View(dbImage);
         }
