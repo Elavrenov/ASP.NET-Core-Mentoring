@@ -3548,3 +3548,51 @@
 2019-04-14 18:33:57.6144 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
 2019-04-14 18:33:57.6144 Info Closing old configuration.
 2019-04-14 18:33:57.6444 Info Found 45 configuration items
+2019-04-14 20:04:51.5835 Info Message Template Auto Format enabled
+2019-04-14 20:04:51.6146 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:04:51.6722 Info Adding target File Target[allfile]
+2019-04-14 20:04:51.6722 Info Adding target File Target[ownFile-web]
+2019-04-14 20:04:51.6844 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-14 20:04:51.7093 Info Found 45 configuration items
+2019-04-14 20:04:52.2815 Info Message Template Auto Format enabled
+2019-04-14 20:04:52.2815 Info Found 45 configuration items
+2019-04-14 20:04:52.2815 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:04:52.2849 Info Adding target File Target[allfile]
+2019-04-14 20:04:52.2849 Info Adding target File Target[ownFile-web]
+2019-04-14 20:04:52.2849 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
+2019-04-14 20:04:52.2849 Info Closing old configuration.
+2019-04-14 20:04:52.3106 Info Found 45 configuration items
+2019-04-14 20:09:58.1260 Info Message Template Auto Format enabled
+2019-04-14 20:09:58.1368 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:09:58.2139 Info Adding target File Target[allfile]
+2019-04-14 20:09:58.2223 Info Adding target File Target[ownFile-web]
+2019-04-14 20:09:58.2223 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-14 20:09:58.2492 Info Found 45 configuration items
+2019-04-14 20:10:00.0872 Info Message Template Auto Format enabled
+2019-04-14 20:10:00.0872 Info Found 45 configuration items
+2019-04-14 20:10:00.0872 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:10:00.0872 Info Adding target File Target[allfile]
+2019-04-14 20:10:00.0872 Info Adding target File Target[ownFile-web]
+2019-04-14 20:10:00.0872 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
+2019-04-14 20:10:00.0872 Info Closing old configuration.
+2019-04-14 20:10:00.1341 Info Found 45 configuration items
+2019-04-14 20:10:07.6554 Info Message Template Auto Format enabled
+2019-04-14 20:10:07.6706 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:10:07.8107 Info Adding target File Target[allfile]
+2019-04-14 20:10:07.8400 Info Adding target File Target[ownFile-web]
+2019-04-14 20:10:07.8565 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-14 20:10:07.8821 Info Found 45 configuration items
+2019-04-14 20:10:13.0880 Info Message Template Auto Format enabled
+2019-04-14 20:10:13.0974 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:10:13.1509 Info Adding target File Target[allfile]
+2019-04-14 20:10:13.1509 Info Adding target File Target[ownFile-web]
+2019-04-14 20:10:13.1615 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\bin\Debug\netcoreapp2.1\nlog.config...
+2019-04-14 20:10:13.1785 Info Found 45 configuration items
+2019-04-14 20:10:13.5119 Info Message Template Auto Format enabled
+2019-04-14 20:10:13.5119 Info Found 45 configuration items
+2019-04-14 20:10:13.5119 Info Loading assembly: NLog.Web.AspNetCore
+2019-04-14 20:10:13.5119 Info Adding target File Target[allfile]
+2019-04-14 20:10:13.5119 Info Adding target File Target[ownFile-web]
+2019-04-14 20:10:13.5119 Info Configured from an XML element in E:\PROGRAMMING\ASP.NET CORE MENTORING\Mentoring.NetCore\PL.WebAppMVC\nlog.config...
+2019-04-14 20:10:13.5179 Info Closing old configuration.
+2019-04-14 20:10:13.5358 Info Found 45 configuration items

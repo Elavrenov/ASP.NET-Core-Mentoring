@@ -154,7 +154,8 @@ namespace DAL.EF.Mapper
                 QuantityPerUnit = dtoProduct.QuantityPerUnit,
                 UnitsOnOrder = dtoProduct.UnitsOnOrder,
                 Discontinued = dtoProduct.Discontinued,
-                ReorderLevel = dtoProduct.ReorderLevel
+                ReorderLevel = dtoProduct.ReorderLevel,
+                UnitPrice = dtoProduct.UnitPrice
             };
         }
 

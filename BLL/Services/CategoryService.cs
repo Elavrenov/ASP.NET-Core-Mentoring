@@ -67,6 +67,7 @@ namespace BLL.Services
 
             var dbImage = await _repository.GetCategoryById(id).ContinueWith(x => x.Result.Picture);
 
+
             var cachingTime = DefaultCachingTimeInMins;
 
             if (int.TryParse(_configuration.GetSection("CachingTime").Value, out var cachingTimeInMin))
