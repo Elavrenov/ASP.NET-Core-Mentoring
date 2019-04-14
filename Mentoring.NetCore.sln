@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Interfaces", "BLL.Interfaces\BLL.Interfaces.csproj", "{3ED1F7CF-A314-49A0-83F5-AEF8C9BBCDC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nortwind.Tests", "Nortwind.Tests\Nortwind.Tests.csproj", "{C156F4EA-1DC2-4294-9ABA-1DD8BCE9B916}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nortwind.Tests", "Nortwind.Tests\Nortwind.Tests.csproj", "{C156F4EA-1DC2-4294-9ABA-1DD8BCE9B916}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL.NothwindApi", "BLL.NothwindApi\BLL.NothwindApi.csproj", "{0C8A5975-2356-47DD-A7EC-3CAF4596E2FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{C156F4EA-1DC2-4294-9ABA-1DD8BCE9B916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C156F4EA-1DC2-4294-9ABA-1DD8BCE9B916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C156F4EA-1DC2-4294-9ABA-1DD8BCE9B916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C8A5975-2356-47DD-A7EC-3CAF4596E2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C8A5975-2356-47DD-A7EC-3CAF4596E2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C8A5975-2356-47DD-A7EC-3CAF4596E2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C8A5975-2356-47DD-A7EC-3CAF4596E2FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

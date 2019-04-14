@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.Interfaces.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
@@ -39,13 +38,12 @@ namespace BLL.Services
 
             return await _repository.GetCategoryById(id);
         }
-
-        public async Task CreateCategoryAsync(UpdateCategory newCategory)
+        public async Task CreateCategoryAsync(Category newCategory)
         {
             await _repository.CreateCategoryAsync(newCategory);
         }
 
-        public async Task UpdateCategoryAsync(int id, UpdateCategory updatedCategory)
+        public async Task UpdateCategoryAsync(int id, Category updatedCategory)
         {
             if (id <= 0)
             {

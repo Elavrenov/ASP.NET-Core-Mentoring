@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 using DAL.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -36,20 +34,9 @@ namespace DAL.EF.Repositories
             return category != null ? Mapper.Mapper.ToCategoryDto(category) : null;
         }
 
-        public async Task CreateCategoryAsync(UpdateCategory newCategory)
+        public async Task CreateCategoryAsync(Category newCategory)
         {
-            byte[] pictureBytes = null;
-
-            if (newCategory.Picture != null)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    await newCategory.Picture.CopyToAsync(ms);
-                    pictureBytes = GetDbValidPictureBytes(ms.ToArray());
-                }
-            }
-
-            var category = Mapper.Mapper.ToCategoriesDal(newCategory, pictureBytes);
+            var category = Mapper.Mapper.ToCategoriesDal(newCategory);
 
             if (!IsExistedCategory(category).Result)
             {
@@ -58,7 +45,7 @@ namespace DAL.EF.Repositories
             }
         }
 
-        public async Task UpdateCateroryAsync(int id, UpdateCategory updatedCategory)
+        public async Task UpdateCateroryAsync(int id, Category updatedCategory)
         {
             var existingCategory = await _context.Categories.SingleOrDefaultAsync(cat => cat.CategoryId == id);
 
@@ -68,42 +55,15 @@ namespace DAL.EF.Repositories
             }
 
             if (!string.Equals(existingCategory.CategoryName, updatedCategory.CategoryName, StringComparison.OrdinalIgnoreCase)
-                || !string.Equals(existingCategory.Description, updatedCategory.Description, StringComparison.OrdinalIgnoreCase))
+                || !string.Equals(existingCategory.Description, updatedCategory.Description, StringComparison.OrdinalIgnoreCase)
+                || !IsEqualsPictures(existingCategory.Picture, updatedCategory.Picture))
             {
                 existingCategory.CategoryName = updatedCategory.CategoryName;
                 existingCategory.Description = updatedCategory.Description;
-            }
-
-            if (updatedCategory.Picture != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await updatedCategory.Picture.CopyToAsync(memoryStream);
-
-                    var plArray = memoryStream.ToArray();
-
-                    if (!IsEqualsPictures(existingCategory.Picture, plArray))
-                    {
-                        var byteMaskPicture = GetDbValidPictureBytes(plArray);
-
-                        existingCategory.Picture = byteMaskPicture;
-                    }
-                }
+                existingCategory.Picture = updatedCategory.Picture;
             }
 
             await _context.SaveChangesAsync();
-        }
-
-        private byte[] GetDbValidPictureBytes(byte[] plByteArray)
-        {
-            byte[] byteMaskPicture = new byte[DefaultByteMaskNumber];
-            Array.Resize(ref byteMaskPicture, DefaultByteMaskNumber + plByteArray.Length);
-            for (int i = DefaultByteMaskNumber, j = 0; i < plByteArray.Length; i++, j++)
-            {
-                byteMaskPicture[i] = plByteArray[j];
-            }
-
-            return byteMaskPicture;
         }
         private bool IsEqualsPictures(byte[] dBytes, byte[] plBytes)
         {

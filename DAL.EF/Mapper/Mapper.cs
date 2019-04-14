@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
 using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
-using DAL.Interfaces.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EF.Mapper
 {
     public static class Mapper
     {
+        private const int DefaultByteMaskNumber = 78;
+
         #region Categories
 
         public static IEnumerable<Category> ToEnumerableCategoryDto(IEnumerable<Categories> categorieses)
@@ -42,9 +41,20 @@ namespace DAL.EF.Mapper
             };
         }
 
-        public static Categories ToCategoriesDal(UpdateCategory dtoCategory, byte[] pictureBytes)
+        public static Category ToCategory(UpdateCategory dtoCategory)
         {
-            return new Categories
+            byte[] pictureBytes = null;
+
+            if (dtoCategory.Picture != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    dtoCategory.Picture.CopyTo(ms);
+                    pictureBytes = GetDbValidPictureBytes(ms.ToArray());
+                }
+            }
+
+            return new Category
             {
                 CategoryName = dtoCategory.CategoryName,
                 Description = dtoCategory.Description,
@@ -52,22 +62,32 @@ namespace DAL.EF.Mapper
             };
         }
 
+        public static Categories ToCategoriesDal(Category category) => new Categories()
+        {
+            CategoryId = category.CategoryId,
+            Picture = category.Picture,
+            CategoryName = category.CategoryName,
+            Description = category.Description
+        };
+
         public static UpdateCategory ToUpdateCategoryModel(Category category)
         {
-            FormFile pictureFile = null;
-
-            if (category.Picture != null)
-            {
-                var stream = new MemoryStream(category.Picture);
-
-                var pictureFormFile = new FormFile(stream, 0, stream.Length, null, category.CategoryName)
+            if (category.Picture == null)
+                return new UpdateCategory()
                 {
-                    Headers = new HeaderDictionary(),
-                    ContentType = "image/jpeg"
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+                    Picture = null
                 };
+            var stream = new MemoryStream(category.Picture);
 
-                pictureFile = pictureFormFile;
-            }
+            var pictureFormFile = new FormFile(stream, 0, stream.Length, null, category.CategoryName)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "image/jpeg"
+            };
+
+            var pictureFile = pictureFormFile;
 
             return new UpdateCategory()
             {
@@ -88,23 +108,6 @@ namespace DAL.EF.Mapper
 
             return prodctDtoList;
         }
-
-        public static UpdateProduct ToUpdatedProduct(Products product)
-        {
-            return new UpdateProduct
-            {
-                CategoryIdNames = product.Category.CategoryName,
-                ProductName = product.ProductName,
-                UnitsInStock = product.UnitsInStock,
-                QuantityPerUnit = product.QuantityPerUnit,
-                UnitsOnOrder = product.UnitsOnOrder,
-                Discontinued = product.Discontinued,
-                ReorderLevel = product.ReorderLevel,
-                UnitPrice = product.UnitPrice,
-                SupplierIdNames = product.Supplier.CompanyName
-            };
-        }
-
         public static UpdateProduct ToUpdateProductModel(Product product)
         {
             return new UpdateProduct
@@ -138,21 +141,49 @@ namespace DAL.EF.Mapper
             };
         }
 
-        public static Products ToProductsDal(UpdateProduct dtoProduct, NorthwindContext context)
+        public static Products ToProductsDal(Product dtoProduct, NorthwindContext context)
         {
             return new Products
             {
                 Category = context.Categories.First(x =>
-                    String.Equals($"{x.CategoryName}", $"{dtoProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase)),
+                    String.Equals($"{x.CategoryName}", $"{dtoProduct.Category}", StringComparison.OrdinalIgnoreCase)),
                 ProductName = dtoProduct.ProductName,
                 UnitsInStock = dtoProduct.UnitsInStock,
                 Supplier = context.Suppliers.First(x =>
-                    String.Equals($"{x.CompanyName}", $"{dtoProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase)),
+                    String.Equals($"{x.CompanyName}", $"{dtoProduct.Supplier}", StringComparison.OrdinalIgnoreCase)),
                 QuantityPerUnit = dtoProduct.QuantityPerUnit,
                 UnitsOnOrder = dtoProduct.UnitsOnOrder,
                 Discontinued = dtoProduct.Discontinued,
                 ReorderLevel = dtoProduct.ReorderLevel
             };
+        }
+
+        public static Product ToProduct(UpdateProduct product) => new Product()
+        {
+            Category = product.CategoryIdNames,
+            Supplier = product.SupplierIdNames,
+            QuantityPerUnit = product.QuantityPerUnit,
+            ProductName = product.ProductName,
+            UnitsOnOrder = product.UnitsOnOrder,
+            Discontinued = product.Discontinued,
+            UnitsInStock = product.UnitsInStock,
+            UnitPrice = product.UnitPrice,
+            ReorderLevel = product.ReorderLevel,
+        };
+        #endregion
+
+        #region private
+
+        private static byte[] GetDbValidPictureBytes(byte[] plByteArray)
+        {
+            byte[] byteMaskPicture = new byte[DefaultByteMaskNumber];
+            Array.Resize(ref byteMaskPicture, DefaultByteMaskNumber + plByteArray.Length);
+            for (int i = DefaultByteMaskNumber, j = 0; i < plByteArray.Length; i++, j++)
+            {
+                byteMaskPicture[i] = plByteArray[j];
+            }
+
+            return byteMaskPicture;
         }
 
         #endregion

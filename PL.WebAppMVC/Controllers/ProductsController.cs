@@ -53,7 +53,8 @@ namespace PL.WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.CreateProductAsync(products);
+                var product = Mapper.ToProduct(products);
+                await _productService.CreateProductAsync(product);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -94,7 +95,8 @@ namespace PL.WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productService.UpdateProductAsync(id, products);
+                var product = Mapper.ToProduct(products);
+                await _productService.UpdateProductAsync(id, product);
                 return RedirectToAction(nameof(Index));
             }
 

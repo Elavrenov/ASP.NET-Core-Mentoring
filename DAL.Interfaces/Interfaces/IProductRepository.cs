@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 
 namespace DAL.Interfaces.Interfaces
 {
@@ -11,7 +10,7 @@ namespace DAL.Interfaces.Interfaces
         Task<Product> GetProductByIdAsync(int? id);
         Task<IEnumerable<string>> GetSelectedCategoryNames();
         Task<IEnumerable<string>> GetSelectedSupplierNames();
-        Task CreateProductAsync(UpdateProduct newProduct);
-        Task UpdateProductAsync(int id, UpdateProduct updatedProduct);
+        Task CreateProductAsync(Product newProduct);
+        Task UpdateProductAsync(int id, Product updatedProduct);
     }
 }

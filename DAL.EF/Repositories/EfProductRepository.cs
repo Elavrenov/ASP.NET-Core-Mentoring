@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 using DAL.EF.Models;
 using DAL.Interfaces.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +40,7 @@ namespace DAL.EF.Repositories
         {
             return await _context.Suppliers.Select(x => x.CompanyName).ToListAsync();
         }
-
-        public async Task CreateProductAsync(UpdateProduct newProduct)
+        public async Task CreateProductAsync(Product newProduct)
         {
             var product = Mapper.Mapper.ToProductsDal(newProduct, _context);
 
@@ -53,7 +51,7 @@ namespace DAL.EF.Repositories
             }
         }
 
-        public async Task UpdateProductAsync(int id, UpdateProduct updatedProduct)
+        public async Task UpdateProductAsync(int id, Product updatedProduct)
         {
             var existingProduct = await _context.Products.SingleOrDefaultAsync(p => p.ProductId == id);
 
@@ -61,12 +59,12 @@ namespace DAL.EF.Repositories
             {
                 existingProduct.Category =
                     await _context.Categories.FirstAsync(x =>
-                        string.Equals($"{x.CategoryName}", $"{updatedProduct.CategoryIdNames}", StringComparison.OrdinalIgnoreCase));
+                        string.Equals($"{x.CategoryName}", $"{updatedProduct.Category}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.Discontinued = updatedProduct.Discontinued;
                 existingProduct.QuantityPerUnit = updatedProduct.QuantityPerUnit;
                 existingProduct.ReorderLevel = updatedProduct.ReorderLevel;
                 existingProduct.Supplier = await _context.Suppliers.FirstAsync(x =>
-                    string.Equals($"{x.CompanyName}", $"{updatedProduct.SupplierIdNames}", StringComparison.OrdinalIgnoreCase));
+                    string.Equals($"{x.CompanyName}", $"{updatedProduct.Supplier}", StringComparison.OrdinalIgnoreCase));
                 existingProduct.UnitPrice = updatedProduct.UnitPrice;
                 existingProduct.UnitsInStock = updatedProduct.UnitsInStock;
                 existingProduct.UnitsOnOrder = updatedProduct.UnitsOnOrder;

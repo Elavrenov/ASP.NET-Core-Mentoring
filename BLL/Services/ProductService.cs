@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 using BLL.Interfaces.Interfaces;
 using DAL.Interfaces.Interfaces;
 
@@ -36,12 +35,12 @@ namespace BLL.Services
             return await _repository.GetSelectedSupplierNames();
         }
 
-        public async Task CreateProductAsync(UpdateProduct newProduct)
+        public async Task CreateProductAsync(Product newProduct)
         {
             await _repository.CreateProductAsync(newProduct);
         }
 
-        public async Task UpdateProductAsync(int id, UpdateProduct updatedProduct)
+        public async Task UpdateProductAsync(int id, Product updatedProduct)
         {
             await _repository.UpdateProductAsync(id, updatedProduct);
         }

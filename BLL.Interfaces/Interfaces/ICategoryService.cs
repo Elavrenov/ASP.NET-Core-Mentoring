@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.CoreEntities.Entities;
-using BLL.CoreEntities.Entities.UpdateEntities;
 
 namespace BLL.Interfaces.Interfaces
 {
@@ -9,8 +8,8 @@ namespace BLL.Interfaces.Interfaces
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
         Task<Category> GetCategoryByIdAsync(int? id);
-        Task CreateCategoryAsync(UpdateCategory newCategory);
-        Task UpdateCategoryAsync(int id, UpdateCategory updatedCategory);
+        Task CreateCategoryAsync(Category newCategory);
+        Task UpdateCategoryAsync(int id, Category updatedCategory);
         Task<byte[]> GetPictureByCategoryId(int? id);
     }
 }

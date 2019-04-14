@@ -69,7 +69,9 @@ namespace PL.WebAppMVC.Controllers
                 return View(categories);
             }
 
-            await _categoryService.CreateCategoryAsync(categories);
+            var category = Mapper.ToCategory(categories);
+
+            await _categoryService.CreateCategoryAsync(category);
 
             return RedirectToAction(nameof(Index));
         }
@@ -107,7 +109,8 @@ namespace PL.WebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.UpdateCategoryAsync(id, category);
+                var updatedCategory = Mapper.ToCategory(category);
+                await _categoryService.UpdateCategoryAsync(id, updatedCategory);
                 return RedirectToAction(nameof(Index));
             }
 
