@@ -15,6 +15,12 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <style>
+        body {
+            height: 100%;
+            background: url(/Pictures/NorthWindEquine.jpg);
+        }
+    </style>
 </head>
 <body>
     @RenderSection("Headers", false)
@@ -36,6 +42,7 @@
                         <li><a asp-area="" asp-controller="Categories" asp-action="Index">Categories</a></li>
                         <li><a asp-area="" asp-controller="Products" asp-action="Index">Products List</a></li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

@@ -3,6 +3,7 @@ using System.IO;
 using BLL.Interfaces.Interfaces;
 using BLL.Services;
 using DAL.EF;
+using DAL.EF.Identity;
 using DAL.EF.Repositories;
 using DAL.Interfaces.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -40,9 +41,8 @@ namespace PL.WebAppMVC
             var identityConnection = Configuration.GetConnectionString("IdentityConnection");
             services.AddDbContext<NorthwindContext>(options =>
                 options.UseSqlServer(connection));
-            services.AddDbContext<IdentityDbContext>(options =>
-                options.UseSqlServer(identityConnection, sqlOptions=>
-                    sqlOptions.MigrationsAssembly("AspNetSecurity-m3")));
+            services.AddDbContext<IdentityContext>(options =>
+                options.UseSqlServer(identityConnection));
 
             services.AddScoped<ICategoryRepository, EfCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -73,43 +73,8 @@ namespace PL.WebAppMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>();
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddDefaultUI()
-            //    .AddEntityFrameworkStores<NorthwindContext>();
-
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //    // Password settings.
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequiredLength = 6;
-            //    options.Password.RequiredUniqueChars = 1;
-
-            //    // Lockout settings.
-            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //    options.Lockout.MaxFailedAccessAttempts = 5;
-            //    options.Lockout.AllowedForNewUsers = true;
-
-            //    // User settings.
-            //    options.User.AllowedUserNameCharacters =
-            //        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            //    options.User.RequireUniqueEmail = false;
-            //});
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    // Cookie settings
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-            //    options.LoginPath = "/Identity/Account/Login";
-            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-            //    options.SlidingExpiration = true;
-            //});
+            services.AddIdentity<NorthwindUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddMemoryCache();
 
@@ -132,32 +97,32 @@ namespace PL.WebAppMVC
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts(h => h.MaxAge(days: 365).Preload());
+                app.UseHsts();
             }
 
-            app.UseExceptionHandler(errorApp =>
-            {
-                errorApp.Run(async context =>
-                {
-                    context.Response.StatusCode = 500;
-                    context.Response.ContentType = "text/html";
+            //app.UseExceptionHandler(errorApp =>
+            //{
+            //    errorApp.Run(async context =>
+            //    {
+            //        context.Response.StatusCode = 500;
+            //        context.Response.ContentType = "text/html";
 
-                    await context.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
-                    await context.Response.WriteAsync("ERROR!<br><br>\r\n");
+            //        await context.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
+            //        await context.Response.WriteAsync("ERROR!<br><br>\r\n");
 
-                    var exceptionHandlerPathFeature =
-                        context.Features.Get<IExceptionHandlerPathFeature>();
+            //        var exceptionHandlerPathFeature =
+            //            context.Features.Get<IExceptionHandlerPathFeature>();
 
-                    if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
-                    {
-                        await context.Response.WriteAsync("File error thrown!<br><br>\r\n");
-                    }
+            //        if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+            //        {
+            //            await context.Response.WriteAsync("File error thrown!<br><br>\r\n");
+            //        }
 
-                    await context.Response.WriteAsync("<a href=\"/\">Home</a><br>\r\n");
-                    await context.Response.WriteAsync("</body></html>\r\n");
-                    await context.Response.WriteAsync(new string(' ', 512)); // IE padding
-                });
-            });
+            //        await context.Response.WriteAsync("<a href=\"/\">Home</a><br>\r\n");
+            //        await context.Response.WriteAsync("</body></html>\r\n");
+            //        await context.Response.WriteAsync(new string(' ', 512)); // IE padding
+            //    });
+            //});
 
             app.UseStatusCodePages("text/plain", "Status code page, status code: {0}");
             app.UseHttpsRedirection();
