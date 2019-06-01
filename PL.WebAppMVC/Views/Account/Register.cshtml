@@ -1,0 +1,38 @@
+﻿@model PL.WebAppMVC.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Registrati1on";
+    Layout = "_HomeLayout";
+}
+
+<div>
+    <h2>Registration new Northwind user</h2>
+
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Email"></label><br />
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            <label asp-for="Year"></label><br />
+            <input asp-for="Year" />
+            <span asp-validation-for="Year"></span>
+        </div>
+        <div>
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <label asp-for="PasswordConfirm"></label><br />
+            <input asp-for="PasswordConfirm" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+
+        <div style="margin-top: 20px; text-decoration:none">
+            <input type="submit" value="Registration" class="btn btn-default" />
+        </div>
+    </form>
+</div>
