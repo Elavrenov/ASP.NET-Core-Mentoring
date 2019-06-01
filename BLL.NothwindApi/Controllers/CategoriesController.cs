@@ -83,22 +83,22 @@ namespace BLL.NothwindApi.Controllers
             return NotFound();
         }
 
-        //[HttpGet("{categoryPictureId}")]
-        //public async Task<ActionResult> GetImageByCategoryId(int? categoryPictureId)
-        //{
-        //    if (categoryPictureId == null || categoryPictureId <= 0)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet("{categoryPictureId}")]
+        public async Task<ActionResult> GetImageByCategoryId(int? categoryPictureId)
+        {
+            if (categoryPictureId == null || categoryPictureId <= 0)
+            {
+                return NotFound();
+            }
 
-        //    var dbImage = await _categoryService.GetPictureByCategoryId(categoryPictureId);
+            var dbImage = await _categoryService.GetPictureByCategoryId(categoryPictureId);
 
-        //    if (dbImage == null)
-        //    {
-        //        NotFound();
-        //    }
+            if (dbImage == null)
+            {
+                NotFound();
+            }
 
-        //    return Ok(dbImage);
-        //}
+            return Ok(dbImage);
+        }
     }
 }
